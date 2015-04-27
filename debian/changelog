@@ -1,0 +1,6 @@
+rocksdb (3.10.1-0rbel1) unstable; urgency=low
+
+  * Debianized
+
+ -- Sergio Rubio <rubiojr@frameos.org>  Sun, 26 Mar 2015 17:39:33 +0000
+

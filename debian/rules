@@ -1,0 +1,31 @@
+#!/usr/bin/make -f
+
+CPPFLAGS:=$(shell dpkg-buildflags --get CPPFLAGS)
+CXXFLAGS:=$(shell dpkg-buildflags --get CXXFLAGS)
+CFLAGS:=$(shell dpkg-buildflags --get CFLAGS)
+
+export CXXFLAGS+=$(CPPFLAGS)
+export CFLAGS+=$(CPPFLAGS)
+
+export DESTDIR=debian/tmp
+export PREFIX=/usr
+
+export CXX=/opt/github/gcc-4.9/bin/g++
+export LD_LIBRARY_PATH=/opt/github/gcc-4.9/lib64
+
+ifneq (,$(filter noopt,$(DEB_BUILD_OPTIONS)))
+    OPT=-O0
+else
+    OPT=-O2
+endif
+
+#export OPT += -g -DNDEBUG
+
+%:
+	dh $@ --parallel
+
+override_dh_auto_test:
+#	dh_auto_test || true
+
+override_dh_strip:
+	dh_strip --dbg-package=librocksdb-dbg
